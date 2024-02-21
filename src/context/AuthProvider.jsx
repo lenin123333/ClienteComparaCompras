@@ -5,6 +5,7 @@ import clienteAxios from "../config/axios";
 const AuthContext = createContext();
 
 
+// eslint-disable-next-line react/prop-types
 const AuthProvider = ({children}) =>{
 
     const [auth,setAuth]= useState({})
