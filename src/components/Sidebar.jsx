@@ -1,0 +1,110 @@
+import { Link } from "react-router-dom"
+import useAuth from "../hooks/useAuth"
+import { useState } from "react";
+import imgPerfil from '../img/usuario-de-perfil.png'
+
+const Sidebar = () => {
+    const {auth,cerrarSesionAuth} =useAuth()
+
+    const handleCerrarSesion = () => {
+        cerrarSesionAuth()
+    }
+    const [isOpen, setIsOpen] = useState(false);
+console.log(auth)
+    const toggleSidebar = () => {
+      setIsOpen(!isOpen);
+    };
+  return (
+    <aside className={`px-5 py-10 ${isOpen ? 'md:w-1/3 lg:w-1/5 xl:w-1/6' : 'md:w-20 lg:w-20 xl:w-20' } shadow-lg  transition-all`}  >
+        <button onClick={toggleSidebar} className={`p-2  ${isOpen ? 'float-end' : 'float-start'}`}>
+        {isOpen ? 
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" className=" h-6 w-6 ">
+                <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/>
+                </svg>
+         : <svg className=" h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/>
+            </svg>
+        }
+        </button>
+
+        {
+            isOpen 
+            ? 
+            <div >
+                <div className="flex flex-col">
+                    <div className="relative  group flex">
+                        <img src={imgPerfil} id="foto-perfil" alt="Foto de perfil" className="w-60 h-60 rounded-full group-hover:opacity-75 transition-opacity duration-300" />
+                        <div className="absolute inset-0 flex items-center justify-center flex-col rounded-full w-60 h-60  bg-black bg-opacity-50  text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p className="text-white">Cambiar foto de perfil</p>
+                            <input type="file" className=" text-xs"  />
+                        </div>
+                    </div>
+                </div>
+                
+                <p className=" text-xl font-bold m-2">Hola: {auth.name} {auth.lastName}</p>
+            </div>
+            
+            :  
+            <Link to="/proyectos"
+            className="  w-full p-2  text-white uppercase font-bold block mt-5 text-center rounded-lg"
+        >
+           <img src={imgPerfil} alt="" className="w-full mt-10"  />
+        </Link>
+            
+        }
+       
+        
+        <Link to="crear-proyecto"
+            className=" hover:bg-gray-300 p-1  uppercase font-bold flex mt-5 text-center rounded-lg"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" viewBox="0 0 576 512"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0H109.6C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 254.9l-.1 0c-5.3 .7-10.7 1.1-16.2 1.1c-12.4 0-24.3-1.9-35.4-5.3V384H128V250.6c-11.2 3.5-23.2 5.4-35.6 5.4c-5.5 0-11-.4-16.3-1.1l-.1 0c-4.1-.6-8.1-1.3-12-2.3V384v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V384 252.6c-4 1-8 1.8-12.3 2.3z"/></svg>
+            {
+            isOpen ?
+            "Agregar Tienda"
+            :
+            ""
+            }
+        </Link>
+       
+        <Link to="crear-proyecto"
+            className=" hover:bg-gray-300 p-1  uppercase font-bold flex mt-5 text-center rounded-lg w-full"
+        >
+           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" viewBox="0 0 576 512"><path d="M264.5 5.2c14.9-6.9 32.1-6.9 47 0l218.6 101c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 149.8C37.4 145.8 32 137.3 32 128s5.4-17.9 13.9-21.8L264.5 5.2zM476.9 209.6l53.2 24.6c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 277.8C37.4 273.8 32 265.3 32 256s5.4-17.9 13.9-21.8l53.2-24.6 152 70.2c23.4 10.8 50.4 10.8 73.8 0l152-70.2zm-152 198.2l152-70.2 53.2 24.6c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 405.8C37.4 401.8 32 393.3 32 384s5.4-17.9 13.9-21.8l53.2-24.6 152 70.2c23.4 10.8 50.4 10.8 73.8 0z"/></svg>
+           {
+            isOpen ?
+            "Agregar Categoria"
+            :
+            ""
+            }
+        </Link>
+
+        <Link to="crear-proyecto"
+            className=" hover:bg-gray-300 p-1  uppercase font-bold  mt-5 text-center rounded-lg flex"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" viewBox="0 0 512 512"><path d="M326.3 218.8c0 20.5-16.7 37.2-37.2 37.2h-70.3v-74.4h70.3c20.5 0 37.2 16.7 37.2 37.2zM504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zm-128.1-37.2c0-47.9-38.9-86.8-86.8-86.8H169.2v248h49.6v-74.4h70.3c47.9 0 86.8-38.9 86.8-86.8z"/></svg>
+            {
+            isOpen ?
+            "Agregar Productos"
+            :
+            ""
+            }
+        </Link>
+
+        <button to="crear-proyecto"
+            className=" hover:bg-gray-300 p-2 w-full uppercase font-bold  mt-5 text-center rounded-lg flex"
+            onClick={handleCerrarSesion}
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" viewBox="0 0 512 512"><path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/></svg>
+            {
+            isOpen ?
+            "Cerrar Sesión"
+            :
+            ""
+            }
+        </button>
+        
+    </aside>
+  )
+}
+
+export default Sidebar
