@@ -1,9 +1,19 @@
-import { Fragment,} from 'react'
+import { Fragment, useState,} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import useProduct from '../../hooks/useProduct';
 
 
 const ModalAddCategory = () => {
+
+    const [categoria,setCategoria,alerta,mostrarAlerta] = useState('');
+
+    const handleSubmit =e=>{
+        e.preventDefault();
+
+        if([categoria].includes('')){
+
+        }
+    }
     
     const {handleModalCategory,modalCategory } = useProduct();
     return (
@@ -58,8 +68,14 @@ const ModalAddCategory = () => {
                             <div className="sm:flex sm:items-start">
                                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                                     <Dialog.Title as="h3" className="text-lg leading-6 font-bold text-gray-900">
-                                        Categoria
+                                        Agregar Una Categoria
                                     </Dialog.Title>
+
+                                    <form className=' m-4' onSubmit={handleSubmit}>
+                                        <label htmlFor="nameCategory" className=' m-2'>Nombre Categoria</label>   
+                                        <input type="text" onChange={e=>setCategoria(e.target.value)} id="nameCategory" placeholder='Ejem: Electricista'  className='p-2 border-2 m-2 placeholder-gray-400 rounded-lg'/>
+                                        <button type="submit" className=' p-2 bg-orange-500 hover:bg-orange-600 rounded-lg text-white float-end ml-5'>Agregar</button>
+                                    </form>
 
                                 </div>
                             </div>
