@@ -2,7 +2,7 @@
 const Product = () => {
   return (
     <div>
-      Hola
+     
     </div>
   )
 }

@@ -1,21 +1,30 @@
 import { Fragment, useState,} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import useProduct from '../../hooks/useProduct';
+import Alerta from '../../components/Alerta';
 
 
 const ModalAddCategory = () => {
 
-    const [categoria,setCategoria,alerta,mostrarAlerta] = useState('');
+    const [category,setCategory] = useState('');
+    const {handleModalCategory,modalCategory,alerta,mostrarAlerta,handleSubmitCategory,categorys } = useProduct();
 
     const handleSubmit =e=>{
         e.preventDefault();
 
-        if([categoria].includes('')){
-
+        if([category].includes('')){
+            mostrarAlerta({
+                msg: 'Todos los campos son obligatorios',
+                type: 'error'
+            })
         }
+        setCategory('')
+        handleSubmitCategory({name:category})
+        
     }
     
-    const {handleModalCategory,modalCategory } = useProduct();
+
+    const { msg } = alerta
     return (
         <Transition.Root show={ modalCategory } as={Fragment}>
             <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={ handleModalCategory}>
@@ -70,12 +79,18 @@ const ModalAddCategory = () => {
                                     <Dialog.Title as="h3" className="text-lg leading-6 font-bold text-gray-900">
                                         Agregar Una Categoria
                                     </Dialog.Title>
-
+                                    {msg && <Alerta alerta={alerta} />}
                                     <form className=' m-4' onSubmit={handleSubmit}>
                                         <label htmlFor="nameCategory" className=' m-2'>Nombre Categoria</label>   
-                                        <input type="text" onChange={e=>setCategoria(e.target.value)} id="nameCategory" placeholder='Ejem: Electricista'  className='p-2 border-2 m-2 placeholder-gray-400 rounded-lg'/>
+                                        <input type="text" value={category} onChange={e=>setCategory(e.target.value)} id="nameCategory" placeholder='Ejem: Electricista'  className='p-2 border-2 m-2 placeholder-gray-400 rounded-lg'/>
                                         <button type="submit" className=' p-2 bg-orange-500 hover:bg-orange-600 rounded-lg text-white float-end ml-5'>Agregar</button>
                                     </form>
+
+                                    <div className=' flex flex-row overflow-y-auto'>
+                                       { categorys.map(categoryState => (
+                                           <p className=' bg-white font-bold m-1 mt-10 border-2  transition-all shadow-lg rounded-lg p-2 hover:text-lg' key={categoryState._id} >{categoryState.name}</p>
+                                        ))}
+                                    </div>
 
                                 </div>
                             </div>

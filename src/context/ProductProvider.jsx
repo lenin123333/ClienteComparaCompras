@@ -8,15 +8,37 @@ const ProductContext = createContext();
 // eslint-disable-next-line react/prop-types
 const ProductProvider = ({children}) =>{
     const [modalCategory, setModalCategory] = useState(false)
+    const [categorys,setCategorys] = useState([])
     const [modalProduct, setModalProduct] = useState(false)
     const [modalProfile, setModalProfile] = useState(false)
     const [modalStore, setModalStore] = useState(false)
     const [alerta, setAlerta] = useState({})
-    
-    const handleModalCategory = () => {
+    const navigate = useNavigate()
+
+    const handleModalCategory = async () => {
         setAlerta({})
         setModalCategory(!modalCategory)
-        
+        if(!modalCategory){
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.log("error")
+            }
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            }
+
+            try {
+                const { data } = await clienteAxios(`/products/category`, config)
+                setCategorys(data)
+            
+            } catch (error) {
+                navigate("/productos")
+            }
+        }
+       
     }
     const handleModalProduct = () => {
         setAlerta({})
@@ -28,11 +50,50 @@ const ProductProvider = ({children}) =>{
         setModalProfile(!modalProfile)
         
     }
-    const handleModalStore = () => {
+    const handleModalStore = async () => {
         setAlerta({})
         setModalStore(!modalStore)
         
+        
     }
+    const mostrarAlerta = alerta => {
+        setAlerta(alerta)
+
+    }
+
+    const handleSubmitCategory = async category =>{
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log("error")
+        }
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+        try {
+            const { data } = await clienteAxios.post(`/products/category`, category, config)
+            setCategorys([...categorys,data])
+            setAlerta({
+                msg: "Categoria Agregada",
+                type: 'success'
+            })
+            
+        } catch (error) {
+            setAlerta({
+                msg: error.response.data.msg,
+                type: 'error'
+            })
+            if(error.response.status === 401){
+                setTimeout(() => {
+                    setAlerta({})
+                }, 2000)
+            }
+        }
+
+    }
+
 
     return(
         <ProductContext.Provider 
@@ -45,7 +106,10 @@ const ProductProvider = ({children}) =>{
               handleModalProfile,
               modalProfile,
               handleModalStore,
-              modalStore
+              modalStore,
+              mostrarAlerta,
+              handleSubmitCategory,
+              categorys
 
             }}
         >

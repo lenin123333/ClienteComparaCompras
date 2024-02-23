@@ -4,7 +4,7 @@ import imgPerfil from '../img/usuario-de-perfil.png'
 import ModalAddCategory from "../pages/Products/ModalAddCategory";
 import useProduct from "../hooks/useProduct";
 import ModalAddProduct from "../pages/Products/ModalAddProduct";
-import ModalAddStore from "../pages/Products/ModalAddStore";
+import ModalAddStore from "../pages/Products/Store/ModalAddStore";
 import ModalProfile from "../pages/Products/ModalProfile";
 
 const Sidebar = () => {
@@ -21,7 +21,6 @@ const Sidebar = () => {
     } = useProduct();
 
     const [isOpen, setIsOpen] = useState(false);
-    console.log(auth)
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
