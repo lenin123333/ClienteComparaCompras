@@ -1,9 +1,9 @@
 const Header = () => {
     return (
         <div className="relative">
-            <header className="px-4 py-5 bg-white border-b-0 shadow-lg fixed top-0 w-full z-0">
+            <header className="px-4 py-5 bg-white border-b-0 shadow-lg fixed top-0 w-full z-10">
                 <div className="lg:flex lg:justify-between"> 
-                    <div className="relative z-0">
+                    <div className="relative ">
                         <div className="container mx-auto p-4">
                             {/* Contenido específico del encabezado */}
                         </div>

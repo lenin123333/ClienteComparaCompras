@@ -25,7 +25,7 @@ const Sidebar = () => {
         setIsOpen(!isOpen);
     };
     return (
-        <aside className={`px-5 py-10 ${isOpen ? 'sm:w-full sm:mt-16  lg:mt-36 md:mt-36  lg:w-1/5 xl:w-1/6 fixed lg:min-h-screen ' : ' md:mt-36 sm:mt-16 lg:mt-36  sm:w-full sm:overflow-hidden sm:h-2  md:w-full lg:min-h-screen  lg:w-16 xl:w-16 '}  shadow-lg  fixed bg-orange-500  transition-all flex flex-col justify-between   `}  >
+        <aside className={`px-5 py-10 ${isOpen ? 'sm:w-full sm:mt-16  lg:mt-36 md:mt-36  lg:w-1/5 xl:w-1/6 fixed lg:min-h-screen ' : ' md:mt-36 sm:mt-16 lg:mt-36  z-10 sm:w-full sm:overflow-hidden sm:h-2  md:w-full lg:min-h-screen  lg:w-16 xl:w-16 '}  shadow-lg  fixed bg-orange-500  transition-all flex flex-col justify-between   `}  >
             <div>
                 <button onClick={toggleSidebar} className={`p-1 mr-3  mb-4 ${isOpen ? 'float-end' : 'float-start'}`}>
                     {isOpen ?

@@ -120,7 +120,9 @@ const ProductProvider = ({children}) =>{
     }
     const showAlerta = alerta => {
         setAlerta(alerta)
-
+        setTimeout(() => {
+            setAlerta({})
+        }, 2000)
     }
 
     const handleSubmitCategory = async category =>{
@@ -207,7 +209,8 @@ const ProductProvider = ({children}) =>{
         }
         try {
             const { data } = await clienteAxios.post(`/products`, producto, config)
-           // setStores([...stores,data])
+
+           setProducts([...products,data])
             setAlerta({
                 msg: "Producto Agregado",
                 type: 'success'
@@ -224,6 +227,43 @@ const ProductProvider = ({children}) =>{
                 }, 2000)
             }
         }
+        setLoading(false)
+    }
+
+    const handleSubmitShoopinCart= async shoopingCart =>{
+        setLoading(true)
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log("error")
+        }
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+        try {
+            const { data } = await clienteAxios.post(`/shopping`, shoopingCart, config)
+            
+            setAlerta({
+                msg: "Producto Agregado Al Carrito",
+                type: 'success'
+            })
+            
+        } catch (error) {
+            setAlerta({
+                msg: error.response.data.msg,
+                type: 'error'
+            })
+            if(error.response.status === 401){
+                setTimeout(() => {
+                    setAlerta({})
+                }, 2000)
+            }
+        }
+        setTimeout(() => {
+            setAlerta({})
+        }, 2000)
         setLoading(false)
     }
 
@@ -247,7 +287,8 @@ const ProductProvider = ({children}) =>{
               modalStore,
               showAlerta,
               loading,
-              products
+              products,
+              handleSubmitShoopinCart
 
             }}
         >
