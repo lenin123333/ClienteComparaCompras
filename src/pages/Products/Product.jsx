@@ -22,8 +22,8 @@ const Product = ({ item }) => {
     };
 
     return (
-        <div className='w-1/4 rounded-lg shadow-lg m-2 p-2 flex flex-col items-center'>
-            <div className="rounded-lg overflow-hidden">
+        <div className='xl:w-1/4 lg:w-1/3  rounded-lg shadow-lg m-2 p-2 flex flex-col items-center '>
+            <div className="rounded-lg overflow-hidden " >
                 <img
                     src={`${import.meta.env.VITE_CLOUD_URL}/${item.imagen}`}
                     alt={`Imagen ${item.name}`}
