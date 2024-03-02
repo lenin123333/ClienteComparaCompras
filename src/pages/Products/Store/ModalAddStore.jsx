@@ -10,22 +10,32 @@ const ModalAddStore = () => {
     const {
         handleModalStore,
         modalStore,
-        alerta, mostrarAlerta
+        alerta, showAlerta,stores,setStores,handleSubmitSotre
     } = useProduct();
-    const [store, setStore] = useState('')
+    const [nameStore, setNameStore] = useState('')
+    const [lat,setLat] = useState('')
+    const [long,setLong] = useState('')
+
 
     const handleSubmit = e => {
         e.preventDefault()
 
-        if ([store].includes('')) {
-            mostrarAlerta({
+        if ([nameStore,lat,long].includes('')) {
+            showAlerta({
                 msg: 'Todos los campos son obligatorios',
                 type: 'error'
             })
         }
-        setStore('')
+        handleSubmitSotre({
+            name:nameStore, 
+            lat, 
+            long 
+        })
+        setLat('')
+        setLong('')
+        setNameStore('')
 
-
+        
     }
 
     const { msg } = alerta
@@ -86,13 +96,13 @@ const ModalAddStore = () => {
                                     </Dialog.Title>
 
                                    
-                                        <MapComponent nombre={"Lenin"} />
+                                        <MapComponent setLat={setLat} setLong={setLong} stores={stores} setStores={setStores} />
                                    
 
 
                                     <form className=' m-4' onSubmit={handleSubmit}>
                                         <label htmlFor="nameCategory" className=' m-2'>Nombre Tienda</label>
-                                        <input type="text" value={store} onChange={e => setStore(e.target.value)} id="nameCategory" placeholder='Ejem: Electricista' className='p-2 border-2 m-2 placeholder-gray-400 rounded-lg' />
+                                        <input type="text" value={nameStore} onChange={e => setNameStore(e.target.value)} id="nameCategory" placeholder='Ejem: Electricista' className='p-2 border-2 m-2 placeholder-gray-400 rounded-lg' />
                                         <button type="submit" className=' p-2 bg-orange-500 hover:bg-orange-600 rounded-lg text-white float-end ml-5'>Agregar</button>
                                     </form>
 

@@ -1,4 +1,4 @@
-import { useState,useEffect, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import {useNavigate} from 'react-router-dom'
 import clienteAxios from "../config/axios";
 
@@ -7,17 +7,51 @@ const ProductContext = createContext();
 
 // eslint-disable-next-line react/prop-types
 const ProductProvider = ({children}) =>{
+    const[products,setProducts] = useState([])
     const [modalCategory, setModalCategory] = useState(false)
     const [categorys,setCategorys] = useState([])
     const [modalProduct, setModalProduct] = useState(false)
     const [modalProfile, setModalProfile] = useState(false)
     const [modalStore, setModalStore] = useState(false)
+    const [stores,setStores] = useState([])
     const [alerta, setAlerta] = useState({})
+    const [loading,setLoading] = useState(false);
     const navigate = useNavigate()
 
-    const handleModalCategory = async () => {
-        setAlerta({})
-        setModalCategory(!modalCategory)
+    useEffect(() => {
+        const getData = async () => {
+           const token = localStorage.getItem('token');
+           if (!token) {
+              console.log("error");
+           }
+           const config = {
+              headers: {
+                 'Content-Type': 'application/json',
+                 Authorization: `Bearer ${token}`
+              }
+           };
+  
+           try {
+              const { data } = await clienteAxios('/products', config);
+              setProducts(data);
+              console.log(data)
+           } catch (error) {
+              navigate('/productos');
+           }
+        };
+  
+
+        if (products.length === 0) {
+            getData();
+         }
+        
+  
+        
+     
+     }, [products]);
+  
+
+    const getCategory = async()=>{
         if(!modalCategory){
             const token = localStorage.getItem('token');
             if (!token) {
@@ -38,11 +72,39 @@ const ProductProvider = ({children}) =>{
                 navigate("/productos")
             }
         }
+    }
+
+    const getStore = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+           console.log("error");
+        }
+        const config = {
+           headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+           }
+        };
+
+        try {
+           const { data } = await clienteAxios('/products/store', config);
+           setStores(data);
+        } catch (error) {
+           navigate('/productos');
+        }
+     };
+    const handleModalCategory = async () => {
+        setAlerta({})
+        setModalCategory(!modalCategory)
+        getCategory()
        
     }
+
     const handleModalProduct = () => {
         setAlerta({})
         setModalProduct(!modalProduct)
+        getCategory()
+        getStore()
         
     }
     const handleModalProfile = () => {
@@ -56,12 +118,13 @@ const ProductProvider = ({children}) =>{
         
         
     }
-    const mostrarAlerta = alerta => {
+    const showAlerta = alerta => {
         setAlerta(alerta)
 
     }
 
     const handleSubmitCategory = async category =>{
+        
         const token = localStorage.getItem('token');
         if (!token) {
             console.log("error")
@@ -73,6 +136,7 @@ const ProductProvider = ({children}) =>{
             }
         }
         try {
+            
             const { data } = await clienteAxios.post(`/products/category`, category, config)
             setCategorys([...categorys,data])
             setAlerta({
@@ -95,21 +159,95 @@ const ProductProvider = ({children}) =>{
     }
 
 
+
+    const handleSubmitSotre= async objetStore =>{
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log("error")
+        }
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+        try {
+            const { data } = await clienteAxios.post(`/products/store`, objetStore, config)
+            setStores([...stores,data])
+            setAlerta({
+                msg: "Tienda Agregada",
+                type: 'success'
+            })
+            
+        } catch (error) {
+            setAlerta({
+                msg: error.response.data.msg,
+                type: 'error'
+            })
+            if(error.response.status === 401){
+                setTimeout(() => {
+                    setAlerta({})
+                }, 2000)
+            }
+        }
+    }
+
+
+    const handleSubmitProduct= async producto =>{
+        setLoading(true)
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log("error")
+        }
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`
+            }
+        }
+        try {
+            const { data } = await clienteAxios.post(`/products`, producto, config)
+           // setStores([...stores,data])
+            setAlerta({
+                msg: "Producto Agregado",
+                type: 'success'
+            })
+            
+        } catch (error) {
+            setAlerta({
+                msg: error.response.data.msg,
+                type: 'error'
+            })
+            if(error.response.status === 401){
+                setTimeout(() => {
+                    setAlerta({})
+                }, 2000)
+            }
+        }
+        setLoading(false)
+    }
+
     return(
         <ProductContext.Provider 
             value={{
+              alerta,
               handleModalCategory,
               modalCategory,
-              alerta,
+              handleSubmitCategory,
+              categorys,
               handleModalProduct,
               modalProduct,
+              handleSubmitProduct,
+              stores,
+              setStores,
+              handleSubmitSotre,
               handleModalProfile,
               modalProfile,
               handleModalStore,
               modalStore,
-              mostrarAlerta,
-              handleSubmitCategory,
-              categorys
+              showAlerta,
+              loading,
+              products
 
             }}
         >

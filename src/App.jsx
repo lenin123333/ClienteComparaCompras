@@ -9,7 +9,7 @@ import OlvidePassword from './pages/Auth/OlvidePassword'
 import NuevoPassword from './pages/Auth/NuevoPassword'
 import ConfirmarCuenta from './pages/Auth/ConfirmarCuenta'
 import { ProductProvider } from './context/ProductProvider'
-import Product from './pages/Products/Product'
+import Products from './pages/Products/Products'
 
 
 const App = () => {
@@ -26,7 +26,7 @@ const App = () => {
             <Route path='confirmar/:id' element={<ConfirmarCuenta />} />
           </Route>
           <Route path='/productos' element={<RutaProtegida />}>
-            <Route index element={<Product />} />
+            <Route index element={<Products />} />
 
 
           </Route>
