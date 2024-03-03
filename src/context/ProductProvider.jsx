@@ -13,6 +13,7 @@ const ProductProvider = ({children}) =>{
     const [modalProduct, setModalProduct] = useState(false)
     const [modalProfile, setModalProfile] = useState(false)
     const [modalStore, setModalStore] = useState(false)
+    const[totalCart,setTotalCart] = useState(0)
     const [stores,setStores] = useState([])
     const [alerta, setAlerta] = useState({})
     const [loading,setLoading] = useState(false);
@@ -33,8 +34,9 @@ const ProductProvider = ({children}) =>{
   
            try {
               const { data } = await clienteAxios('/products', config);
-              setProducts(data);
-              console.log(data)
+              setProducts(data[0]);
+              setTotalCart(data[1][0].totalAmount)
+              
            } catch (error) {
               navigate('/productos');
            }
@@ -244,7 +246,7 @@ const ProductProvider = ({children}) =>{
         }
         try {
             const { data } = await clienteAxios.post(`/shopping`, shoopingCart, config)
-            
+            setTotalCart(data[0].totalAmount)
             setAlerta({
                 msg: "Producto Agregado Al Carrito",
                 type: 'success'
@@ -288,7 +290,8 @@ const ProductProvider = ({children}) =>{
               showAlerta,
               loading,
               products,
-              handleSubmitShoopinCart
+              handleSubmitShoopinCart,
+              totalCart
 
             }}
         >
