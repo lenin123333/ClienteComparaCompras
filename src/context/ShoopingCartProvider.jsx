@@ -8,8 +8,9 @@ const ShoopingCartContext = createContext();
 // eslint-disable-next-line react/prop-types
 const ShoopingCartProvider = ({ children }) => {
     const [shoopingCarts, setShoopingCarts] = useState([])
-    const [totalProduct,setTotalProduc]=useState(0)
-    const [totalPrice,setTotalPrice]=useState(0)
+    
+    const [totalProductState,setaTotalProductState]=useState(0)
+    const [totalPriceState,setTotalPriceState]=useState(0)
 
     const [alerta, setAlerta] = useState({})
 
@@ -68,7 +69,9 @@ const ShoopingCartProvider = ({ children }) => {
         };
 
         try {
-            await clienteAxios.post('/shopping/amount', {id}, config);
+            const {data}=await clienteAxios.post('/shopping/amount', {id}, config);
+            var totalProd=0;
+            var totalCant=0;
             const updatedCarts = shoopingCarts.map(store => {
                 const newArreglo = store.products.find(product =>
                     product._id.toString() === id.toString()
@@ -83,13 +86,14 @@ const ShoopingCartProvider = ({ children }) => {
         
                     store.products = newArregloMut;
                 }
-        
+                
                 return store;
             });
 
-           // console.log(updatedCarts)
+           console.log(data)
             
-
+           setaTotalProductState(data[0].totalAmount)
+           setTotalPriceState(data[0].totalPrice)
             setShoopingCarts(updatedCarts)
 
 
@@ -117,8 +121,8 @@ const ShoopingCartProvider = ({ children }) => {
                 handleAddProduct,
                 showAlerta,
                 alerta,
-                totalProduct,setTotalProduc,
-                totalPrice,setTotalPrice
+                totalProductState, totalPriceState, 
+                setaTotalProductState, setTotalPriceState 
 
             }}
         >
