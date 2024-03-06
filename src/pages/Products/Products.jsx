@@ -10,7 +10,7 @@ const Products = () => {
 
 
   return (
-    <main className="flex flex-wrap m-3 flex-row justify-center mt-40 md:mt-52">
+    <main className="flex flex-wrap  m-3 flex-row justify-center mt-40 md:mt-64 ">
       {
         products.map(item => (
           <Product key={item._id} item={item} />

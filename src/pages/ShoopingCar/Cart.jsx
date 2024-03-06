@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import useShoopingCart from '../../hooks/useShoopingCart'
 import Alerta from '../../components/Alerta'
+import iconoBorrar from '../../img/cerrar.png';
 
 const Cart = ({ store }) => {
     
     
-    const {alerta,handleAddProduct} = useShoopingCart()
+    const {alerta,handleAddProduct,handleRemoveProduct,handleDeleteProduct} = useShoopingCart()
     const [totalProducts, setTotalProducts] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
 
@@ -30,12 +31,21 @@ const Cart = ({ store }) => {
     const handleAdd = (id) =>{
         handleAddProduct(id)
     }
+
+    const handleRemove = (id) =>{
+        handleRemoveProduct(id)
+    }
+    const handleDelete = (id) =>{
+        console.log(id)
+        handleDeleteProduct(id)
+    }
+
     
 
     
     const { msg } = alerta
     return (
-        <div className='shadow-lg m-8 p-8'>
+        <div className='shadow-lg m-8 p-8 '>
              {msg && <Alerta alerta={alerta} />}
                
             <h3 className='text-2xl font-bold'>Tienda: <span className=' font-normal'>{store.storeName[0]}</span></h3>
@@ -52,10 +62,13 @@ const Cart = ({ store }) => {
                 <tbody>
                     {store.products.map(product => (
                        
-                        <tr key={product._id} className='border-b-4 text-xl border-orange-400'>
+                        <tr key={product._id} className='border-b-4 text-xl border-sky-400 relative'>
                              
 
                             <td className='text-left p-2 m-2'>
+                        
+                            <img onClick={()=>handleDelete(product._id)} src={iconoBorrar} alt="Icono Borrar" className="absolute top-0 right-0 w-6 h-6 m-2 cursor-pointer" />
+                            
                                 <p className=' m-2 text-2xl'>{product.productName}</p>
                                 <div className="rounded-lg  " >
                                     <img
@@ -67,8 +80,9 @@ const Cart = ({ store }) => {
                             </td>
 
                             <td className='text-center'>
+                                
                                 <div className=' flex justify-center'>
-                                    <button type="button" className="p-2 font-bold text-white">
+                                    <button type="button" onClick={()=>handleRemove(product._id)}  className="p-2 font-bold text-white">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" viewBox="0 0 448 512">
                                             <path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
                                         </svg>
@@ -86,6 +100,7 @@ const Cart = ({ store }) => {
 
                             <td className='text-center'>
                                 <p className='font-bold'><span className='font-normal'>$ {product.price * product.amount}.00</span></p>
+                               
                             </td>
                         </tr>
                     ))}

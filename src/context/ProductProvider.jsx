@@ -18,7 +18,7 @@ const ProductProvider = ({children}) =>{
     const [alerta, setAlerta] = useState({})
     const [loading,setLoading] = useState(false);
     const navigate = useNavigate()
-
+    
     useEffect(() => {
         const getData = async () => {
            const token = localStorage.getItem('token');
@@ -291,7 +291,7 @@ const ProductProvider = ({children}) =>{
               loading,
               products,
               handleSubmitShoopinCart,
-              totalCart
+              totalCart,setTotalCart
 
             }}
         >

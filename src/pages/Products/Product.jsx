@@ -103,7 +103,7 @@ const Product = ({ item }) => {
     }
     const { msg } = alerta
     return (
-        <div className='xl:w-1/4 lg:w-1/3  rounded-lg shadow-lg m-2 p-2 flex flex-col items-center '>
+        <div className='xl:w-1/4 lg:w-1/3  rounded-lg shadow-lg m-2 p-2 flex z-10 flex-col items-center '>
             {msg && <Alerta alerta={alerta} />}
 
 
