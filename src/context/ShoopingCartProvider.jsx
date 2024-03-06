@@ -1,5 +1,4 @@
-import { createContext, useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom'
+import { createContext, useState } from "react";
 import clienteAxios from "../config/axios";
 import useProduct from "../hooks/useProduct";
 
@@ -14,40 +13,10 @@ const ShoopingCartProvider = ({ children }) => {
     const [totalPriceState, setTotalPriceState] = useState(0)
     const{setTotalCart}=useProduct();
     const [alerta, setAlerta] = useState({})
+    const[ubiStore,setUbiStore]= useState([])
+    
 
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        const getData = async () => {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                console.log("error");
-            }
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                }
-            };
-
-            try {
-                const { data } = await clienteAxios('/shopping', config);
-                console.log(data)
-                setShoopingCarts(data)
-            } catch (error) {
-                navigate('/productos');
-            }
-        };
-
-
-
-        getData();
-
-
-
-
-
-    }, []);
+  
 
     const showAlerta = alerta => {
         setAlerta(alerta)
@@ -71,7 +40,7 @@ const ShoopingCartProvider = ({ children }) => {
 
         try {
             const { data } = await clienteAxios.post('/shopping/amount', { id }, config);
-
+            
             const updatedCarts = shoopingCarts.map(store => {
                 const newArreglo = store.products.find(product =>
                     product._id.toString() === id.toString()
@@ -147,7 +116,7 @@ const ShoopingCartProvider = ({ children }) => {
                 return store;
             });
 
-            console.log(data)
+           
 
             setaTotalProductState(data[0].totalAmount)
             setTotalPriceState(data[0].totalPrice)
@@ -195,10 +164,9 @@ const ShoopingCartProvider = ({ children }) => {
                 return store;
             });
             setShoopingCarts(updatedCarts)
-
-            setaTotalProductState(data[0].totalAmount)
-            setTotalPriceState(data[0].totalPrice)
-            setTotalCart(data[0].totalAmount)
+            setaTotalProductState(data[0]?.totalAmount ? data[0]?.totalAmount :0)
+            setTotalPriceState(data[0]?.totalPrice ? data[0]?.totalPrice :0 )
+            setTotalCart(data[0]?.totalAmount ? data[0]?.totalAmount  :0)
 
 
 
@@ -233,17 +201,17 @@ const ShoopingCartProvider = ({ children }) => {
 
         try {
             const { data } = await clienteAxios('/shopping/save', config);
-
-
-
-
-
+            setUbiStore(data)
+            setShoopingCarts([])
+            setaTotalProductState(0)
+            setTotalPriceState(0)
+            setTotalCart(0)
 
 
 
 
             setAlerta({
-                msg: "Carrito Agregado",
+                msg: "Carrito Guardado",
                 type: 'success'
             })
 
@@ -267,8 +235,9 @@ const ShoopingCartProvider = ({ children }) => {
                 setaTotalProductState, 
                 setTotalPriceState, 
                 handleRemoveProduct,
-                handleDeleteProduct
-                ,handleSaveShoopingCart
+                handleDeleteProduct,
+                handleSaveShoopingCart,
+                ubiStore,setShoopingCarts
             }}
         >
             {children}

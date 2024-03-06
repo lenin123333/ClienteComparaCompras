@@ -1,36 +1,71 @@
-import  { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import useShoopingCart from '../../hooks/useShoopingCart'
 import Cart from './Cart';
+import { useNavigate } from 'react-router-dom'
+import clienteAxios from "../../config/axios";
+import { Link } from 'react-router-dom';
+import useProduct from '../../hooks/useProduct';
+import Spiner from '../../components/Spiner';
 
 const ShoopingCart = () => {
    const { shoopingCarts, totalProductState, totalPriceState,
-      setaTotalProductState, setTotalPriceState } = useShoopingCart();
+      setaTotalProductState, setTotalPriceState, handleSaveShoopingCart, setShoopingCarts } = useShoopingCart();
+   const [loading,setLoading]=useState(false)
+   const { totalCart } = useProduct();
+    
+   const navigate = useNavigate()
 
    useEffect(() => {
-      // Calcular el total de productos y el subtotal
-      const totalProductsCount = shoopingCarts.reduce((acc, store) => {
-         return acc + store.totalAmount;
-      }, 0);
+      const getData = async () => {
+         setLoading(true)
+         const token = localStorage.getItem('token');
+         if (!token) {
+            console.log("error");
+         }
+         const config = {
+            headers: {
+               'Content-Type': 'application/json',
+               Authorization: `Bearer ${token}`
+            }
+         };
 
-      const subtotalAmount = shoopingCarts.reduce((acc, store) => {
-         return acc + (store.totalPrice);
-      }, 0);
+         try {
+            const { data } = await clienteAxios('/shopping', config);
+            console.log(data);
+            setShoopingCarts(data.existOrder);
 
-      // Actualizar el estado con los totales
-      setaTotalProductState(totalProductsCount);
-      setTotalPriceState(subtotalAmount);
+            
+   
+            // Actualizar el estado con los totales si es necesario
+            
+            setaTotalProductState(data.totalGeneral.totalProductsCount);
+            setTotalPriceState(data.totalGeneral.totalCartPrice);
+            
+         } catch (error) {
+            navigate('/productos');
+         }finally{
+         setLoading(false)
 
-   }, []);
+         }
+      };
+
+      getData();
+
+   }, []); // Dependencia vacía para ejecutar solo una vez al montar el componente
 
    const [isOpen, setIsOpen] = useState(false);
    const toggleSidebar = () => {
       setIsOpen(!isOpen);
    };
-   const { handleSaveShoopingCart } = useShoopingCart()
 
    return (
 
       <main className="flex justify-center lg:mt-52 md:mt-64 sm:mt-52">
+         {loading && (
+            <div className="absolute inset-0 flex items-center justify-center">
+               <Spiner />
+            </div>
+         )}
          <div className="w-2/4 md:w-3/4 sm:w-full lg:mr-8">
             <h2 className='text-4xl mb-4 font-serif'>Resumen Carrito</h2>
             {shoopingCarts.map((store, index) => (
@@ -55,7 +90,7 @@ const ShoopingCart = () => {
                <p className='mt-2 text-xl font-bold'>Total a pagar: <span className=' font-normal'>$ {totalPriceState}.00</span></p>
             </div>
 
-            <button className={`p-2 lg:mb-20 md:mb-60 ${isOpen ? 'sm:block' : 'sm:hidden'} md:block lg:block bg-sky-600 hover:bg-sky-700 rounded-lg text-xl text-white`}>Generar Ruta</button>
+            <Link to={'/Map-Shooping'} onClick={handleSaveShoopingCart} className={`p-2 lg:mb-20 md:mb-60 ${isOpen ? 'sm:block' : 'sm:hidden'} md:block lg:block bg-sky-600 hover:bg-sky-700 rounded-lg text-xl text-white`}>Generar Ruta</Link>
 
 
          </div>

@@ -246,6 +246,7 @@ const ProductProvider = ({children}) =>{
         }
         try {
             const { data } = await clienteAxios.post(`/shopping`, shoopingCart, config)
+            //console.log(data)
             setTotalCart(data[0].totalAmount)
             setAlerta({
                 msg: "Producto Agregado Al Carrito",
@@ -262,11 +263,14 @@ const ProductProvider = ({children}) =>{
                     setAlerta({})
                 }, 2000)
             }
+            
+        }finally{
+            setLoading(false)
         }
         setTimeout(() => {
             setAlerta({})
         }, 2000)
-        setLoading(false)
+       
     }
 
     return(

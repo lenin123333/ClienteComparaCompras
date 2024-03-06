@@ -12,6 +12,7 @@ import { ProductProvider } from './context/ProductProvider'
 import Products from './pages/Products/Products'
 import ShoopingCart from './pages/ShoopingCar/ShoopingCart'
 import { ShoopingCartProvider } from './context/ShoopingCartProvider'
+import MapShoopingCar from './pages/ShoopingCar/MapShoopingCar'
 
 
 const App = () => {
@@ -30,10 +31,12 @@ const App = () => {
               </Route>
               <Route path='/productos' element={<RutaProtegida />}>
                 <Route index element={<Products />} />
-                
               </Route>
-              <Route path='/carrito' element={<RutaProtegida />}>
+              <Route path='/Carrito' element={<RutaProtegida />}>
                 <Route index element={<ShoopingCart />} />
+              </Route>
+              <Route path='/Map-Shooping' element={<RutaProtegida />}>
+                <Route index element={<MapShoopingCar />} />
               </Route>
             </Routes>
           </ShoopingCartProvider>
