@@ -40,7 +40,7 @@ const Sidebar = () => {
                     }
                 </button>
 
-
+{/* 
                 <button to="/proyectos"
                     className={`hover:bg-white w-full  ${isOpen ? 'p-2' : ''}    uppercase font-bold flex mt-5 text-center rounded-lg`}
                     onClick={handleModalProfile}
@@ -55,7 +55,7 @@ const Sidebar = () => {
                     }
                 </button>
 
-
+*/}
 
                 <button to="crear-proyecto"
                     className={`hover:bg-white w-full  ${isOpen ? 'p-2' : ''}    uppercase font-bold flex mt-5 text-center rounded-lg`}
@@ -116,7 +116,7 @@ const Sidebar = () => {
             <ModalAddCategory />
             <ModalAddProduct />
             <ModalAddStore />
-            <ModalProfile />
+        {/*  <ModalProfile /> */ }
         </aside>
     )
 }
