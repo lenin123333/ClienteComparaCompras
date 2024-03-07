@@ -246,7 +246,7 @@ const ProductProvider = ({children}) =>{
         }
         try {
             const { data } = await clienteAxios.post(`/shopping`, shoopingCart, config)
-            //console.log(data)
+            console.log(data)
             setTotalCart(data[0].totalAmount)
             setAlerta({
                 msg: "Producto Agregado Al Carrito",

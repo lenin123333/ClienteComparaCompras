@@ -60,10 +60,11 @@ const MapShoopingCar = () => {
     
 
     return (
-        <div className='mt-28 ml-10 ' style={{ 
+        <div className='lg:mt-28 lg:ml-10 md:mt-60 md:ml-0   ' style={{ 
             position: 'relative', 
             height: '90%', 
             width: '100%',
+            
               }}
               >
             <div id="map-id"  style={{ height: '100%', width: '100%' }} />
