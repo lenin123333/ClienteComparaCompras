@@ -2,8 +2,8 @@ import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import useProduct from '../../../hooks/useProduct';
 import clienteAxios from '../../../config/axios';
-import Compras from './Shooping';
 import PaginationMenu from './PaginationMenu';
+import Shooping from './Shooping';
 
 const ModalShoopingCart = () => {
   const { handleModalShoopingCart, modalShoopingCart } = useProduct();
@@ -92,7 +92,7 @@ const ModalShoopingCart = () => {
                     Compras
                   </Dialog.Title>
                   {shoopingCart.map((compras) => (
-                    <Compras key={compras._id} compras={compras} handleModalShoopingCart={handleModalShoopingCart} />
+                    <Shooping key={compras._id} compras={compras} handleModalShoopingCart={handleModalShoopingCart} />
                   ))}
                   <PaginationMenu
                     currentPage={currentPage}
