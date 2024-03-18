@@ -92,7 +92,7 @@ const ModalShoopingCart = () => {
                     Compras
                   </Dialog.Title>
                   {shoopingCart.map((compras) => (
-                    <Compras key={compras._id} compras={compras} />
+                    <Compras key={compras._id} compras={compras} handleModalShoopingCart={handleModalShoopingCart} />
                   ))}
                   <PaginationMenu
                     currentPage={currentPage}
