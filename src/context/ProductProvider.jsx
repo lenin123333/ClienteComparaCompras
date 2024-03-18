@@ -13,6 +13,8 @@ const ProductProvider = ({children}) =>{
     const [modalProduct, setModalProduct] = useState(false)
     const [modalProfile, setModalProfile] = useState(false)
     const [modalStore, setModalStore] = useState(false)
+    const [modalShoopingCart, setModalShoopingCart] = useState(false)
+
     const[totalCart,setTotalCart] = useState(0)
     const [stores,setStores] = useState([])
     const [alerta, setAlerta] = useState({})
@@ -107,6 +109,12 @@ const ProductProvider = ({children}) =>{
         setModalProduct(!modalProduct)
         getCategory()
         getStore()
+        
+    }
+    const handleModalShoopingCart = () => {
+        setAlerta({})
+        setModalShoopingCart(!modalShoopingCart)
+       
         
     }
     const handleModalProfile = () => {
@@ -295,7 +303,8 @@ const ProductProvider = ({children}) =>{
               loading,
               products,
               handleSubmitShoopinCart,
-              totalCart,setTotalCart
+              totalCart,setTotalCart,
+              handleModalShoopingCart
 
             }}
         >
