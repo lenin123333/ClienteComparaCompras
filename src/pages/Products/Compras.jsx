@@ -1,12 +1,17 @@
+import React from 'react';
 
-const Compras = ({compras}) => {
+const Compras = ({ compras }) => {
   return (
-    <div>
-      {compras._id}
-      {compras.totalAmount}
-      {compras.totalPrice}
+    <div className="bg-white rounded-lg shadow-md p-4 mb-4">
+      <div className="font-bold text-lg mb-2">{compras._id}</div>
+      <div className="text-gray-700 mb-2">
+        <p>Cantidad: {compras.totalAmount}</p>
+        <p>Precio total: ${compras.totalPrice}</p>
+      </div>
+      {/* Aquí puedes agregar más detalles de la compra si los tienes */}
+      {/* Por ejemplo: descripción del producto, imagen, etc. */}
     </div>
-  )
-}
+  );
+};
 
-export default Compras
+export default Compras;
