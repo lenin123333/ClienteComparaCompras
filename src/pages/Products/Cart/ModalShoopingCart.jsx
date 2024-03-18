@@ -1,8 +1,8 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import useProduct from '../../hooks/useProduct';
-import clienteAxios from '../../config/axios';
-import Compras from './Compras';
+import useProduct from '../../../hooks/useProduct';
+import clienteAxios from '../../../config/axios';
+import Compras from './Shooping';
 import PaginationMenu from './PaginationMenu';
 
 const ModalShoopingCart = () => {

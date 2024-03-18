@@ -13,7 +13,7 @@ import Products from './pages/Products/Products'
 import ShoopingCart from './pages/ShoopingCar/ShoopingCart'
 import { ShoopingCartProvider } from './context/ShoopingCartProvider'
 import MapShoopingCar from './pages/ShoopingCar/MapShoopingCar'
-import ShowCart from './pages/Products/ShowCart'
+import ShowCart from './pages/ShoopingCar/ShowCart'
 
 
 const App = () => {
