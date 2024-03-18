@@ -6,6 +6,7 @@ import useProduct from "../hooks/useProduct";
 import ModalAddProduct from "../pages/Products/ModalAddProduct";
 import ModalAddStore from "../pages/Products/Store/ModalAddStore";
 import ModalProfile from "../pages/Products/ModalProfile";
+import ModalShoopingCart from "../pages/Products/ModalShoopingCart";
 
 const Sidebar = () => {
     const { auth, cerrarSesionAuth } = useAuth()
@@ -130,6 +131,7 @@ const Sidebar = () => {
             <ModalAddCategory />
             <ModalAddProduct />
             <ModalAddStore />
+            <ModalShoopingCart />
         {/*  <ModalProfile /> */ }
         </aside>
     )

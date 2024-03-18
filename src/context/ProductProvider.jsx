@@ -304,7 +304,8 @@ const ProductProvider = ({children}) =>{
               products,
               handleSubmitShoopinCart,
               totalCart,setTotalCart,
-              handleModalShoopingCart
+              handleModalShoopingCart,
+              modalShoopingCart
 
             }}
         >
