@@ -1,12 +1,37 @@
-import { Fragment,} from 'react'
+import { Fragment, useEffect, useState,} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import useProduct from '../../hooks/useProduct';
+import clienteAxios from '../../config/axios';
 
 
 const ModalShoopingCart = () => {
     
     const {handleModalShoopingCart,
         modalShoopingCart } = useProduct();
+   
+    const [shoopingCart,setShoopingCart] = useState();
+    useEffect(() =>{
+        const getShoopingCart = async() =>{
+            const token= localStorage.getItem('token');
+            const config= {
+                headers:{
+                    'Content-Type': 'application/json',
+                    Authorization:`Bearer ${token}`  
+                }
+            }
+            try {
+                const {data} = await clienteAxios.post('/shopping/show',{},config)
+                console.log(data);    
+            } catch (error) {
+                console.log(error)
+            }finally{
+                //setCargando(false); //
+            }
+            
+            
+        }
+        getShoopingCart()
+    },[])    
     return (
         <Transition.Root show={ modalShoopingCart } as={Fragment}>
             <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={ handleModalShoopingCart}>
