@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import useAuth from "../hooks/useAuth"
 import { useState } from "react";
 import imgPerfil from '../img/usuario-de-perfil.png'

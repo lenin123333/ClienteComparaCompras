@@ -187,7 +187,7 @@ const ShoopingCartProvider = ({ children }) => {
 
     }
 
-    const handleSaveShoopingCart = async () => {
+    const handleSaveShoopingCart = async (id) => {
         const token = localStorage.getItem('token');
         if (!token) {
             console.log("error");
@@ -200,13 +200,22 @@ const ShoopingCartProvider = ({ children }) => {
         };
 
         try {
-            const { data } = await clienteAxios('/shopping/save', config);
-            setUbiStore(data)
-            setShoopingCarts([])
-            setaTotalProductState(0)
-            setTotalPriceState(0)
-            setTotalCart(0)
-
+            if(id){
+                const { data } = await clienteAxios(`/shopping/save/${id}`, config);
+                setUbiStore(data)
+                setShoopingCarts([])
+               
+    
+            }else{
+                const { data } = await clienteAxios('/shopping/save', config);
+                setUbiStore(data)
+                setShoopingCarts([])
+                setaTotalProductState(0)
+                setTotalPriceState(0)
+                setTotalCart(0)
+    
+            }
+           
 
 
 

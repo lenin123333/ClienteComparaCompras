@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import useProduct from '../../hooks/useProduct';
 import Spiner from '../../components/Spiner';
 import { useParams } from 'react-router-dom';
+import { Button } from 'bootstrap';
 
 const ShoopingCart = () => {
    const params = useParams()
@@ -35,14 +36,14 @@ const ShoopingCart = () => {
 
             if (params.id) {
                const { data } = await clienteAxios(`/shopping/${params.id}`, config);
-               console.log(data);
+               
                setShoopingCarts(data.existOrder);
                // Actualizar el estado con los totales si es necesario
                setaTotalProductState(data.totalGeneral.totalProductsCount);
                setTotalPriceState(data.totalGeneral.totalCartPrice);
             } else {
                const { data } = await clienteAxios('/shopping', config);
-               console.log(data);
+               
                setShoopingCarts(data.existOrder);
                // Actualizar el estado con los totales si es necesario
                setaTotalProductState(data.totalGeneral.totalProductsCount);
@@ -68,6 +69,15 @@ const ShoopingCart = () => {
    const toggleSidebar = () => {
       setIsOpen(!isOpen);
    };
+
+   const handleSubmit=(id)=>{
+      
+      if(id){
+         handleSaveShoopingCart(id)
+      }else{
+         handleSaveShoopingCart()
+      }
+   }
 
    return (
 
@@ -101,7 +111,7 @@ const ShoopingCart = () => {
                <p className='mt-2 text-xl font-bold'>Total a pagar: <span className=' font-normal'>$ {totalPriceState}.00</span></p>
             </div>
 
-            <Link to={'/Map-Shooping'} onClick={handleSaveShoopingCart} className={`p-2 lg:mb-20 md:mb-60 ${isOpen ? 'sm:block' : 'sm:hidden'} md:block lg:block bg-sky-600 hover:bg-sky-700 rounded-lg text-xl text-white`}>Generar Ruta</Link>
+            <Link to={'/Map-Shooping'} onClick={()=>handleSubmit(params.id  ? params.id : '')} className={`p-2 lg:mb-36  md:mb-60 ${isOpen ? 'sm:block' : 'sm:hidden'} md:block lg:block text-center bg-sky-600 hover:bg-sky-700 rounded-lg text-xl text-white`}>Generar Ruta</Link>
 
 
          </div>
