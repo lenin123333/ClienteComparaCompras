@@ -13,7 +13,6 @@ import Products from './pages/Products/Products'
 import ShoopingCart from './pages/ShoopingCar/ShoopingCart'
 import { ShoopingCartProvider } from './context/ShoopingCartProvider'
 import MapShoopingCar from './pages/ShoopingCar/MapShoopingCar'
-import ShowCart from './pages/ShoopingCar/ShowCart'
 
 
 const App = () => {
@@ -35,7 +34,7 @@ const App = () => {
               </Route>
               <Route path='/Carrito' element={<RutaProtegida />}>
                 <Route index element={<ShoopingCart />} />
-                <Route path=':id' element={<ShowCart />} />
+                <Route path=':id' element={<ShoopingCart />} />
               </Route>
               <Route path='/Map-Shooping' element={<RutaProtegida />}>
                 <Route index element={<MapShoopingCar />} />

@@ -6,13 +6,15 @@ import clienteAxios from "../../config/axios";
 import { Link } from 'react-router-dom';
 import useProduct from '../../hooks/useProduct';
 import Spiner from '../../components/Spiner';
+import { useParams } from 'react-router-dom';
 
 const ShoopingCart = () => {
+   const params = useParams()
    const { shoopingCarts, totalProductState, totalPriceState,
       setaTotalProductState, setTotalPriceState, handleSaveShoopingCart, setShoopingCarts } = useShoopingCart();
-   const [loading,setLoading]=useState(false)
+   const [loading, setLoading] = useState(false)
    const { totalCart } = useProduct();
-    
+
    const navigate = useNavigate()
 
    useEffect(() => {
@@ -30,21 +32,30 @@ const ShoopingCart = () => {
          };
 
          try {
-            const { data } = await clienteAxios('/shopping', config);
-            console.log(data);
-            setShoopingCarts(data.existOrder);
 
-            
-   
-            // Actualizar el estado con los totales si es necesario
-            
-            setaTotalProductState(data.totalGeneral.totalProductsCount);
-            setTotalPriceState(data.totalGeneral.totalCartPrice);
-            
+            if (params.id) {
+               const { data } = await clienteAxios(`/shopping/id:${params.id}`, config);
+               console.log(data);
+               setShoopingCarts(data.existOrder);
+               // Actualizar el estado con los totales si es necesario
+               setaTotalProductState(data.totalGeneral.totalProductsCount);
+               setTotalPriceState(data.totalGeneral.totalCartPrice);
+            } else {
+               const { data } = await clienteAxios('/shopping', config);
+               console.log(data);
+               setShoopingCarts(data.existOrder);
+               // Actualizar el estado con los totales si es necesario
+               setaTotalProductState(data.totalGeneral.totalProductsCount);
+               setTotalPriceState(data.totalGeneral.totalCartPrice);
+            }
+
+
+
+
          } catch (error) {
             navigate('/productos');
-         }finally{
-         setLoading(false)
+         } finally {
+            setLoading(false)
 
          }
       };
