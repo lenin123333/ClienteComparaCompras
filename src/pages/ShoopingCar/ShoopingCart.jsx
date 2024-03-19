@@ -34,7 +34,7 @@ const ShoopingCart = () => {
          try {
 
             if (params.id) {
-               const { data } = await clienteAxios(`/shopping/id:${params.id}`, config);
+               const { data } = await clienteAxios(`/shopping/${params.id}`, config);
                console.log(data);
                setShoopingCarts(data.existOrder);
                // Actualizar el estado con los totales si es necesario
@@ -62,7 +62,7 @@ const ShoopingCart = () => {
 
       getData();
 
-   }, []); // Dependencia vacía para ejecutar solo una vez al montar el componente
+   }, [params.id]); // Dependencia vacía para ejecutar solo una vez al montar el componente
 
    const [isOpen, setIsOpen] = useState(false);
    const toggleSidebar = () => {
