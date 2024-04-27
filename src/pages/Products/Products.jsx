@@ -8,6 +8,7 @@ const Products = () => {
     products
   } = useProduct();
 
+  
 
   return (
     <main className="flex flex-wrap  m-3 flex-row justify-center mt-40 md:mt-64 ">
