@@ -63,7 +63,12 @@ const Registrar = () => {
     }
   }
 
-
+  const googleAuth = () => {
+		window.open(
+			`${import.meta.env.VITE_APP_API_URL}/auth/google/callback`,
+			"_self"
+		);
+	};
   const { msg } = alerta
 
   return (
@@ -145,6 +150,10 @@ const Registrar = () => {
           value="Crear Cuenta"
           className="  mb-5 bg-sky-700 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
         />
+        <button className=' flex flex-row justify-center items-center w-full text-center mb-5 py-3 uppercase  rounded shadow'  onClick={googleAuth}>
+						<img className=" w-8 " src="./images/google.png" alt="google icon" />
+						<span>Inicia Sesion con Google</span>
+					</button>
       </form>
       <nav className="lg:flex lg:justify-between">
         <Link to="/" className="block text-center my-5 text-slate-500 uppercase text-sm">¿Ya tienes una cuenta? Inicia Sesión</Link>
