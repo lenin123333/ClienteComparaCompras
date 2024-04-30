@@ -12,13 +12,12 @@ const AuthProvider = ({children}) =>{
     const [auth,setAuth]= useState({})
     const [cargando,setCargando]= useState(true)
      const navigate= useNavigate()
-     const [user, setUser] = useState(null);
-
+    
 	const getUser = async () => {
 		try {
-			const url = `${import.meta.env.VITE_APP_API_URL}/auth/login/success`;
+			const url = `${import.meta.env.VITE_APP_API_URL}/api/users/login/success`;
 			const { data } = await axios.get(url, { withCredentials: true });
-			setUser(data.user._json);
+            localStorage.setItem('token', data.user.token)
 		} catch (err) {
 			console.log(err);
 		}
@@ -26,10 +25,9 @@ const AuthProvider = ({children}) =>{
     useEffect(() =>{
         const autenticarUusario = async() =>{
             const token= localStorage.getItem('token');
-            getUser()
-            console.log(user);
-            if(!token && !user){
-
+            
+            
+            if(!token){
                 setCargando(false)
                 return
             } 
@@ -53,6 +51,7 @@ const AuthProvider = ({children}) =>{
             
             
         }
+        getUser()
         autenticarUusario()
     },[])
 
